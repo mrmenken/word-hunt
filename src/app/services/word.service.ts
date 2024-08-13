@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { WordNormalizerService } from './word-normalizer.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,10 @@ export class WordService {
   private allWords: ReadonlySet<string> = new Set();
   private simpleWords = new ReplaySubject<ReadonlyArray<string>>(1);
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private readonly normalizer: WordNormalizerService,
+    private readonly http: HttpClient
+  ) {
     this.loadWords('words.all.nl.txt').subscribe(
       (words) => (this.allWords = new Set(words))
     );
@@ -35,13 +39,18 @@ export class WordService {
   }
 
   isValid(word: string) {
-    word = word.toLowerCase();
+    word = this.normalizer.normalize(word);
     return this.allWords.has(word);
   }
 
-  private loadWords(file: string) {
+  private loadWords(file: string): Observable<string[]> {
     return this.http.get(file, { responseType: 'text' }).pipe(
-      map((data) => data.split('\n').map((word) => word.toLowerCase())),
+      map((data) =>
+        data
+          .split('\n')
+          .map(this.normalizer.normalize)
+          .filter((word) => word)
+      ),
       catchError((error) => {
         console.error('Error loading words:', error);
         return [];
