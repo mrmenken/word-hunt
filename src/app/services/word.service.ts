@@ -9,7 +9,7 @@ import { WordNormalizerService } from './word-normalizer.service';
 })
 export class WordService {
   private allWords: ReadonlySet<string> = new Set();
-  private simpleWords = new ReplaySubject<ReadonlyArray<string>>(1);
+  private simpleWords = new ReplaySubject<readonly string[]>(1);
 
   constructor(
     private readonly normalizer: WordNormalizerService,

@@ -8,7 +8,7 @@ export class WordNormalizerService {
     if (/[0-9₂+/]/.test(word)) return '';
 
     word = word
-      .replaceAll(/[ \-'\.]/g, '')
+      .replaceAll(/[ \-'.]/g, '')
       .replaceAll(/[áàäâÅ]/g, 'a')
       .replaceAll(/ç/g, 'c')
       .replaceAll(/[éèëê]/g, 'e')

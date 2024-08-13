@@ -1,4 +1,3 @@
-import { inject } from '@angular/core';
 import { ValidatorFn } from '@angular/forms';
 import { WordService } from '../services/word.service';
 
