@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { WordNormalizerService } from './word-normalizer.service';
@@ -11,22 +11,20 @@ export class DictionaryService {
   private allWords: ReadonlySet<string> = new Set();
   private simpleWords: readonly string[] = [];
 
-  readonly initialization$;
+  readonly initialized = signal<boolean>(false);
 
   constructor(
     private readonly normalizer: WordNormalizerService,
     private readonly http: HttpClient
   ) {
-    this.initialization$ = combineLatest([
+    combineLatest([
       this.loadWords('words.all.nl.txt'),
       this.loadWords('words.simple.nl.txt'),
-    ]).pipe(
-      map(([allWords, simpleWords]) => {
-        this.allWords = new Set(allWords);
-        this.simpleWords = simpleWords;
-        return true;
-      })
-    );
+    ]).subscribe(([allWords, simpleWords]) => {
+      this.allWords = new Set(allWords);
+      this.simpleWords = simpleWords;
+      this.initialized.set(true);
+    });
   }
 
   isValidWord(word: string) {

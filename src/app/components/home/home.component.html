@@ -1,1 +1,5 @@
-<app-word-input></app-word-input>
+@if (!gameService.initialized()) {
+<app-loading-screen></app-loading-screen>
+} @else {
+<app-game></app-game>
+}
