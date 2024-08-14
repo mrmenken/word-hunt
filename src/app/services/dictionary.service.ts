@@ -28,8 +28,12 @@ export class DictionaryService {
   }
 
   isValidWord(word: string) {
-    word = this.normalizer.normalize(word);
+    word = this.normalize(word);
     return this.allWords.has(word);
+  }
+
+  normalize(word: string) {
+    return this.normalizer.normalize(word);
   }
 
   getRandomWord(length: number) {

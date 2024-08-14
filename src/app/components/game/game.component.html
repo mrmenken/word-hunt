@@ -1,1 +1,13 @@
+<div class="mb-3">
+  <h1>Word Hunt</h1>
+</div>
+
+<div class="container">
+  @for (guess of gameService.guesses(); track $index) {
+  <div class="mb-3">
+    <app-guess [guess]="guess"></app-guess>
+  </div>
+  }
+</div>
+
 <app-guess-prompt></app-guess-prompt>

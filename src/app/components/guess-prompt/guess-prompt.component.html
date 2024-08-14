@@ -1,7 +1,11 @@
 <input
+  id="guess"
   type="text"
   placeholder="Typ een woord"
-  class="form-control"
+  autocomplete="off"
+  class="form-control fs-2"
   [formControl]="control"
   [ngClass]="{ 'is-invalid': control.invalid }"
+  (keydown.enter)="onSubmit()"
+  oninput="this.value = this.value.toUpperCase()"
 />

@@ -16,12 +16,26 @@ import { GameService } from '../../services/game.service';
 export class GuessPromptComponent {
   protected control;
 
-  constructor(gameService: GameService, dictionary: DictionaryService) {
-    this.control = new FormControl('', [
-      Validators.required,
-      Validators.minLength(gameService.wordLength),
-      Validators.maxLength(gameService.wordLength),
-      wordValidator(dictionary),
-    ]);
+  constructor(
+    private readonly gameService: GameService,
+    dictionary: DictionaryService
+  ) {
+    this.control = new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.minLength(gameService.wordLength),
+        Validators.maxLength(gameService.wordLength),
+        wordValidator(dictionary),
+      ],
+    });
+  }
+
+  protected onSubmit() {
+    if (this.control.invalid) return;
+
+    this.gameService.addGuess(this.control.value);
+
+    this.control.setValue('');
   }
 }

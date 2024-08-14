@@ -1,0 +1,16 @@
+<div class="row justify-content-center">
+  @for (letter of guess().letters; track $index) {
+  <div class="col">
+    <div
+      class="border letter-box"
+      [class.bg-success]="guess().status[$index] === LetterStatus.Correct"
+      [class.bg-warning]="guess().status[$index] === LetterStatus.Misplaced"
+      [class.bg-light]="guess().status[$index] === LetterStatus.Incorrect"
+    >
+      <div class="fs-1">
+        {{ letter.toUpperCase() }}
+      </div>
+    </div>
+  </div>
+  }
+</div>
