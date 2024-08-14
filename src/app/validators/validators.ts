@@ -1,10 +1,9 @@
 import { ValidatorFn } from '@angular/forms';
-import { WordService } from '../services/word.service';
+import { DictionaryService } from '../services/dictionary.service';
 
-export function wordValidator(wordService: WordService): ValidatorFn {
+export function wordValidator(dictionary: DictionaryService): ValidatorFn {
   return (control) => {
-    const value = control.value.toLowerCase();
-    if (wordService.isValid(value)) {
+    if (dictionary.isValidWord(control.value)) {
       return null;
     } else {
       return { word: true };

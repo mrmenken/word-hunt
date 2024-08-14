@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WordInputComponent } from '../word-input/word-input.component';
-import { WordService } from '../../services/word.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,10 +10,4 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {
-  protected readonly randomWord;
-
-  constructor(wordService: WordService) {
-    this.randomWord = wordService.randomWord(5);
-  }
-}
+export class HomeComponent {}
