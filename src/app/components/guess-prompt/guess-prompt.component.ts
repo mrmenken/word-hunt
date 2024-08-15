@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { wordValidator } from '../../validators/validators';
 import { DictionaryService } from '../../services/dictionary.service';
@@ -13,7 +19,9 @@ import { GameService } from '../../services/game.service';
   styleUrl: './guess-prompt.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GuessPromptComponent {
+export class GuessPromptComponent implements AfterViewInit {
+  @ViewChild('guess') private readonly controlRef!: ElementRef;
+
   protected control;
 
   constructor(
@@ -29,6 +37,10 @@ export class GuessPromptComponent {
         wordValidator(dictionary),
       ],
     });
+  }
+
+  ngAfterViewInit() {
+    this.controlRef.nativeElement.focus();
   }
 
   protected onSubmit() {
